@@ -36,8 +36,6 @@ def api_technicians(request):
             return response
 
 
-
-
 @require_http_methods(["GET", "POST"])
 def api_appointments(request):
 	if request.method == "GET":
@@ -68,6 +66,39 @@ def api_appointments(request):
                response.status_code = 400
                return response
 
+
+@require_http_methods(["PUT"])
+def api_finish_appointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    appointment.finish()
+    body = {
+        "customer": appointment.customer,
+        "date_time": appointment.date_time,
+        "vin": appointment.vin,
+        "reason": appointment.reason,
+    }
+    return JsonResponse(
+        appointment,
+        encoder=AppointmentEncoder,
+        safe=False,
+    )
+
+
+@require_http_methods(["PUT"])
+def api_cancel_appointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    appointment.cancel()
+    body = {
+        "customer": appointment.customer,
+        "date_time": appointment.date_time,
+        "vin": appointment.vin,
+        "reason": appointment.reason,
+    }
+    return JsonResponse(
+        appointment,
+        encoder=AppointmentEncoder,
+        safe=False,
+    )
 
 @require_http_methods("DELETE")
 def api_technician(request, employee_id):
