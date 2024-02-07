@@ -67,3 +67,29 @@ def api_appointments(request):
                )
                response.status_code = 400
                return response
+
+
+@require_http_methods("DELETE")
+def api_technician(request, employee_id):
+    if request.method == "DELETE":
+        try:
+            technician = Technician.objects.get(employee_id=employee_id)
+            auto.delete()
+            return JsonResponse(
+                technician,
+                encoder=TechnicianEncoder,
+                safe=False,
+            )
+        except Technician.DoesNotExist:
+            response = JsonResponse({
+                "message": "Does not exist"
+            })
+            response.status_code = 404
+            return response
+
+    else:
+        response = JsonResponse({
+            "message": "That feature is not available right now"
+        })
+        response.status_code = 404
+        return response
