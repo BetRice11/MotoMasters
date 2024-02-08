@@ -21,8 +21,11 @@ def poll():
             content = json.loads(response.content)
             for auto in content['automobiles']:
                 AutomobileVO.objects.update_or_create(
-                    import_href=auto['href'],
-                    defaults={"name": auto["name"]},
+                    vin=auto["vin"],
+                    defaults={
+                        "vin": auto["vin"],
+                        "sold": auto["sold"],
+                    },
                 )
 
         except Exception as e:

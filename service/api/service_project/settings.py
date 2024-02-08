@@ -50,7 +50,7 @@ MIDDLEWARE = [
 
 ALLOWED_HOSTS = [
     "localhost",
-    
+    "service-api",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
