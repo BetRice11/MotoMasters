@@ -6,7 +6,9 @@ class Technician(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     employee_id = models.CharField(max_length=20, unique=True)
-    id = id
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} (ID: {self.employee_id})"
 
 
 class AutomobileVO(models.Model):
