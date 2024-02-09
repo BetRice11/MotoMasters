@@ -10,6 +10,64 @@ function Nav() {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="automobiles">
+                Automobiles
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="automobiles/new">
+                Add a Automobile
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="vehicles">
+                Vehicles
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="vehicles/new">
+                Add a Vehicle
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="manufacturers">
+                Manufacturers
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="manufacturers/new">
+                Add Manufacturer
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="salesperson/new">
+                Add a Salesperson
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="salespeople">
+                Salespeople
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="customers/new">
+                Add a Customer
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="customers">
+                Customers
+              </NavLink>
+            </li>
+              <NavLink className="nav-link" aria-current="page" to="sales/new">
+                New Sales
+              </NavLink>
+            <li className="nav-item">
+              <NavLink className="nav-link" aria-current="page" to="salespeople/history">
+                SalesPerson History
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>

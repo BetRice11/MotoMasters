@@ -115,6 +115,7 @@ def api_sales(request, automobile_vo_id=None):
             sales = Sales.objects.filter(automobile=automobile_vo_id)
         else:
             sales = Sales.objects.all()
+        unsold_sales = [sale for sale in sales if not sale.automobile.sold]
         return JsonResponse(
             {"sales": sales},
             encoder=SalesEncoder,
@@ -131,7 +132,7 @@ def api_sales(request, automobile_vo_id=None):
                 status=400,
             )
         try:
-            employee_id = content["employee_id"]
+            employee_id = content["salesperson"]
             salesperson = Salesperson.objects.get(employee_id=employee_id)
             content["employee_id"] = salesperson
         except Salesperson.DoesNotExist:
