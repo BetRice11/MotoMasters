@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 
 function CreateVehicle() {
-    const [name, setName] = useState('');
-    const [picture_url, setPictureUrl] = useState('');
-    const [manufacturer_id, setManufacturer] = useState('');
-    const [manufacturers, setManufacturers] = useState([]);
+    const [name, setName] = useState('')
+    const [picture_url, setPictureUrl] = useState('')
+    const [manufacturer_id, setManufacturer] = useState('')
+    const [manufacturers, setManufacturers] = useState([])
 
     async function fetchData() {
-        const url = 'http://localhost:8100/api/manufacturers/';
-        const response = await fetch(url);
+        const url = 'http://localhost:8100/api/manufacturers/'
+        const response = await fetch(url)
 
         if (response.ok) {
             const data = await response.json()
@@ -19,7 +19,7 @@ function CreateVehicle() {
 
     useEffect(() => {
         console.log('Fetching manufacturers..')
-        fetchData();
+        fetchData()
     }, []);
 
     const handleNameChange = (event) => {
@@ -41,8 +41,7 @@ function CreateVehicle() {
     }
 
     async function handleSubmit(event) {
-        event.preventDefault();
-
+        event.preventDefault()
         const data = {
             name,
             picture_url,
@@ -50,8 +49,8 @@ function CreateVehicle() {
         }
         console.log('Form data:', data)
 
-        const modelUrl = 'http://localhost:8100/api/models/';
-        const fetchConfig = {
+        const modelUrl = 'http://localhost:8100/api/models/'
+        const fetchOptions = {
             method: "post",
             body: JSON.stringify(data),
             headers: {
@@ -59,14 +58,14 @@ function CreateVehicle() {
             },
         };
 
-        const response = await fetch(modelUrl, fetchConfig);
+        const response = await fetch(modelUrl, fetchOptions);
         if (response.ok) {
             const newVehicle = await response.json()
             console.log('New vehicle:', newVehicle)
 
-            setName('');
-            setPictureUrl('');
-            setManufacturer('');
+            setName('')
+            setPictureUrl('')
+            setManufacturer('')
         }
     }
 

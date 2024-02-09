@@ -7,7 +7,7 @@ function SaleForm() {
     const [salesperson, setSalesPerson] = useState("");
     const [customers, setCustomers] = useState([]);
     const [customer, setCustomer] = useState("");
-    const [price, setPrice] = useState([]);
+    const [price, setPrice] = useState("");
 
     const handleAutomobileChange = (event) => {
         const value = event.target.value;
@@ -32,47 +32,54 @@ function SaleForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const data = {};
-        data.automobile = automobile;
-        data.customer = customer;
-        data.salesperson = salesperson;
-        data.price = price;
+        const selectedAutomobile = automobiles.find(auto => auto.vin === automobile);
+        if (!selectedAutomobile) {
+            console.error('Selected automobile not found');
+            return;
+        }
 
-        const saleURL = `http://localhost:8090/api/sales/`;
+        const data = {
+            automobile,
+            employee_id: salesperson,
+            customer,
+            price
+        };
+
+        const saleURL = 'http://localhost:8090/api/sales/';
         const fetchConfig = {
-            method: "post",
+            method: 'POST',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
             },
         };
 
-        const response = await fetch(saleURL, fetchConfig);
-        if (response.ok) {
-            await response.json();
-
-            const automobileURL = `http://localhost:8100${automobile}`;
-            const automobileConfig = {
-                method: 'PUT',
-                body: JSON.stringify({ ...automobile, sold: true }),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            };
-
-            const automobileResponse = await fetch(automobileURL, automobileConfig);
-            if (automobileResponse.ok) {
-                console.log('Automobile successfully sold');
+        try {
+            const response = await fetch(saleURL, fetchConfig);
+            if (response.ok) {
+                console.log('Sale created successfully');
+                const automobileURL = `http://localhost:8100/api/automobiles/${automobile}`;
+                const automobileConfig = {
+                    method: 'PUT',
+                    body: JSON.stringify({ sold: true }), // Mark as sold
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                };
+                const automobileResponse = await fetch(automobileURL, automobileConfig);
+                if (automobileResponse.ok) {
+                    console.log('Automobile marked as sold successfully');
+                } else {
+                    console.error('Failed to mark automobile as sold');
+                }
             } else {
-                console.log('Failed to see automobile');
+                console.error('Failed to create sale');
             }
-
-            setPrice('');
-            setAutomobile('');
-            setSalesPerson('');
-            setCustomer('');
+        } catch (error) {
+            console.error('Error creating sale:', error);
         }
-    }
+    };
+
     const fetchData = async () => {
         const automobilesFetch = await fetch('http://localhost:8100/api/automobiles/');
         const customersFetch = await fetch('http://localhost:8090/api/customers/');
@@ -87,16 +94,18 @@ function SaleForm() {
             const customerData = await customersFetch.json();
             const salespersonData = await salesPeopleFetch.json();
             console.log("Automobiles:", unsoldAutomobiles);
-            console.log("Customer:", customerData.customer);
+            console.log("Customers:", customerData.customer);
             console.log("Salesperson:", salespersonData.salesperson);
             setAutomobiles(unsoldAutomobiles);
-            setCustomer(customerData.customer);
-            setSalesPerson(salespersonData.salesperson)
+            setCustomers(customerData.customer);
+            setSalesPeople(salespersonData.salesperson);
         }
-    }
+    };
+
     useEffect(() => {
         fetchData();
     }, []);
+
     return (
         <div className="container">
             <div className="row">
@@ -152,4 +161,5 @@ function SaleForm() {
         </div>
     );
 }
+
 export default SaleForm;

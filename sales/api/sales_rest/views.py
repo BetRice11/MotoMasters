@@ -115,7 +115,6 @@ def api_sales(request, automobile_vo_id=None):
             sales = Sales.objects.filter(automobile=automobile_vo_id)
         else:
             sales = Sales.objects.all()
-        unsold_sales = [sale for sale in sales if not sale.automobile.sold]
         return JsonResponse(
             {"sales": sales},
             encoder=SalesEncoder,
@@ -126,37 +125,38 @@ def api_sales(request, automobile_vo_id=None):
             automobile_vin = content["automobile"]
             automobile = AutomobileVO.objects.get(vin=automobile_vin)
             content["automobile"] = automobile
+
+            employee_id = content["employee_id"]
+            salesperson = Salesperson.objects.get(employee_id=employee_id)
+            content["employee_id"] = salesperson
+
+            customer_id = content["customer"]
+            customer = Customer.objects.get(id=customer_id)
         except AutomobileVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid automobile vin"},
                 status=400,
             )
-        try:
-            employee_id = content["salesperson"]
-            salesperson = Salesperson.objects.get(employee_id=employee_id)
-            content["employee_id"] = salesperson
         except Salesperson.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid employee id"},
                 status=400,
             )
-        try:
-            customer_id = content["customer"]
-            customer = Customer.objects.get(id=customer_id)
-            content["customer"] = customer
         except Customer.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid customer id"},
                 status=400,
             )
+
         sales = Sales.objects.create(
             automobile=automobile,
             salesperson=salesperson,
             customer=customer,
             price=content["price"]
         )
+
         return JsonResponse(
-            sales,
+            {"sales": sales},
             encoder=SalesEncoder,
             safe=False,
         )
@@ -166,3 +166,5 @@ def api_sale(request, pk):
     if request.method == "DELETE":
         count, _ = Sales.objects.filter(id=pk).delete()
         return JsonResponse({"deleted": count > 0})
+
+
