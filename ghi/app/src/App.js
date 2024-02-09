@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, } from 'react-router-dom';
 import MainPage from './MainPage';
 import Nav from './Nav';
 import SalespersonForm from './SalespersonForm';
@@ -13,6 +13,11 @@ import VehicleForm from './VehicleForm';
 import Manufacturers from './ManufacturersList';
 import ManufacturerForm from './ManufacturersForm';
 import SalesPersonHistory from './SPHistory';
+import TechniciansList from './TechniciansList';
+import AddTechnician from './AddTechnician';
+import AppointmentForm from './AppointmentForm';
+import AppointmentsList from './AppointmentsList';
+import AppointmentHistory from './AppointmentHistory';
 
 
 function App() {
@@ -40,6 +45,12 @@ function App() {
 
           <Route path="sales/new" element={<SalesForm />} />
           <Route path="salespeople/history" element={<SalesPersonHistory />} />
+          <Route path="/api/technicians/list" element={<TechniciansList />} />
+          <Route path="/api/technicians/add" element={<AddTechnician />} />
+          <Route path="/api/technicians/create" element={<AddTechnician />} />
+          <Route path="/api/appointments/create" element={<AppointmentForm />} />
+          <Route path="/api/appointments/list" element={<AppointmentsList />} />
+          <Route path="/api/appointments/history" element={<AppointmentHistory />} />
         </Routes>
       </div>
     </BrowserRouter>

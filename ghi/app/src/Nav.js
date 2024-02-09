@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 
 function Nav() {
   return (
@@ -69,9 +69,13 @@ function Nav() {
               </NavLink>
             </li>
           </ul>
+        <div className="container-fluid">
+          <NavLink className="navbar-brand" to="/api/technicians/list">Technicians</NavLink>
+          <NavLink className="navbar-brand" to="/api/technicians/add">Add Technician</NavLink>
+          <NavLink className="navbar-brand" to="/api/appointments/list">Service Appointments</NavLink>
+          <NavLink className="navbar-brand" to="/api/appointments/create">Create Service Appointment</NavLink>
+          <NavLink className="navbar-brand" to="/api/appointments/history">Service History</NavLink>
         </div>
-      </div>
-    </nav>
   )
 }
 

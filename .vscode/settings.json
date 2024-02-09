@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./service/api"
+    ]
+    "git.enabled": false,
+}
