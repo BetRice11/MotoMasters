@@ -39,7 +39,7 @@ def api_technicians(request):
 @require_http_methods(["GET", "POST"])
 def api_appointments(request):
 	if request.method == "GET":
-		appointments = Appointment.objects.get(all)
+		appointments = Appointment.objects.all()
 		return JsonResponse(
 			{"appointments": appointments},
 			encoder=AppointmentEncoder,
@@ -47,9 +47,13 @@ def api_appointments(request):
 		)
 	else:
           try:
+               print(request.body)
                content = json.loads(request.body)
+               print(content)
                employee_id = content["technician"]
+               print(employee_id)
                technician = Technician.objects.get(pk=employee_id)
+               print(technician)
                content["technician"] = technician
                appointment = Appointment.objects.create(**content)
                return JsonResponse(
@@ -57,7 +61,6 @@ def api_appointments(request):
                     encoder=AppointmentEncoder,
                     safe=False,
                )
-
 
           except:
                response = JsonResponse(
@@ -69,14 +72,10 @@ def api_appointments(request):
 
 @require_http_methods(["PUT"])
 def api_finish_appointment(request, id):
+    content = json.loads(request.body)
     appointment = Appointment.objects.get(id=id)
-    appointment.finish()
-    body = {
-        "customer": appointment.customer,
-        "date_time": appointment.date_time,
-        "vin": appointment.vin,
-        "reason": appointment.reason,
-    }
+    prop = ["status"]
+    setattr(appointment, prop, content[prop])
     return JsonResponse(
         appointment,
         encoder=AppointmentEncoder,
@@ -86,14 +85,10 @@ def api_finish_appointment(request, id):
 
 @require_http_methods(["PUT"])
 def api_cancel_appointment(request, id):
+    content = json.loads(request.body)
+    content["status"] = "CANCELED"
+    Appointment.objects.filter(id=id).update(**content)
     appointment = Appointment.objects.get(id=id)
-    appointment.cancel()
-    body = {
-        "customer": appointment.customer,
-        "date_time": appointment.date_time,
-        "vin": appointment.vin,
-        "reason": appointment.reason,
-    }
     return JsonResponse(
         appointment,
         encoder=AppointmentEncoder,

@@ -2,12 +2,11 @@ from django.urls import path
 
 from .views import (
     api_technicians,
+    api_technician,
     api_appointments,
     api_finish_appointment,
     api_cancel_appointment,
-    api_technician,
-    api_finish_appointment,
-    api_cancel_appointment,
+
 )
 
 urlpatterns = [

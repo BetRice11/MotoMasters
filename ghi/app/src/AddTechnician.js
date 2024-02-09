@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-function AddTechnicianForm() {
+function AddTechnician() {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [employee_id, setEmployeeId] = useState('');
@@ -35,7 +35,7 @@ function AddTechnicianForm() {
             }
         } catch (error) {
             console.error('Error adding technician:', error);
-            alert('error');
+            alert('error:', error);
         }
     };
 
@@ -70,4 +70,4 @@ function AddTechnicianForm() {
     );
 }
 
-export default AddTechnicianForm;
+export default AddTechnician;
