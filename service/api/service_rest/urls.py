@@ -16,7 +16,7 @@ urlpatterns = [
         name="api_technicians",
     ),
     path(
-        "technicians/:id",
+        "technicians/:id/",
         api_technician,
         name="api_technician",
     ),
@@ -26,12 +26,12 @@ urlpatterns = [
         name="api_appointments",
     ),
     path(
-        "appointments/:id/finish/",
+        "appointments/<str:id>/finish/",
         api_finish_appointment,
         name="api_finish_appointment",
     ),
     path(
-        "appointments/:id/cancel/",
+        "appointments/<str:id>/cancel/",
         api_cancel_appointment,
         name="api_cancel_appointment",
     ),

@@ -28,9 +28,27 @@ function AppointmentsList() {
         };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/appointments/${appointmentId}/cancel`, options);
+            const response = await fetch(`http://localhost:8080/api/appointments/${appointmentId}/cancel/`, options);
         } catch (error) {
             console.error('Error canceling appointment:', error);
+        }
+
+    }
+
+    async function handleFinish(appointmentId) {
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(appointmentId)
+        };
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/appointments/${appointmentId}/finish/`, options);
+            await getData()
+        } catch (error) {
+            console.error('Error finishing appointment:', error);
         }
 
     }
@@ -51,7 +69,7 @@ function AppointmentsList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {appointments.map(appointment => {
+                        {appointments.filter((appointment)=> appointment.status !== "CANCELED").filter((appointment)=> appointment.status !== "FINISHED").map(appointment => {
                             return (
                                 <tr key={appointment.id}>
                                     <td>{appointment.vin}</td>

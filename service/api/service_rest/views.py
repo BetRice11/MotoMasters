@@ -72,10 +72,10 @@ def api_appointments(request):
 
 @require_http_methods(["PUT"])
 def api_finish_appointment(request, id):
-    content = json.loads(request.body)
-    appointment = Appointment.objects.get(id=id)
-    prop = ["status"]
-    setattr(appointment, prop, content[prop])
+    content = {}
+    content["status"] = "FINISHED"
+    Appointment.objects.filter(pk=id).update(**content)
+    appointment = Appointment.objects.get(pk=id)
     return JsonResponse(
         appointment,
         encoder=AppointmentEncoder,
@@ -85,10 +85,10 @@ def api_finish_appointment(request, id):
 
 @require_http_methods(["PUT"])
 def api_cancel_appointment(request, id):
-    content = json.loads(request.body)
+    content = {}
     content["status"] = "CANCELED"
-    Appointment.objects.filter(id=id).update(**content)
-    appointment = Appointment.objects.get(id=id)
+    Appointment.objects.filter(pk=id).update(**content)
+    appointment = Appointment.objects.get(pk=id)
     return JsonResponse(
         appointment,
         encoder=AppointmentEncoder,
