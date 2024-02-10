@@ -8,6 +8,9 @@ class AutomobileVO(models.Model):
     vin = models.CharField(max_length=17, unique=True)
     sold = models.BooleanField(default=False)
 
+    class Meta:
+        app_label = "sales_rest"
+
     def __str__(self):
         return self.vin
 
