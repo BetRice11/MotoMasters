@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 function SaleForm() {
     const [automobiles, setAutomobiles] = useState([]);
     const [automobile, setAutomobile] = useState("");
@@ -58,10 +59,10 @@ function SaleForm() {
             const response = await fetch(saleURL, fetchConfig);
             if (response.ok) {
                 console.log('Sale created successfully');
-                const automobileURL = `http://localhost:8100/api/automobiles/${automobile}`;
+                const automobileURL = `http://localhost:8100/api/automobiles/${automobile}/`;
                 const automobileConfig = {
                     method: 'PUT',
-                    body: JSON.stringify({ sold: true }), // Mark as sold
+                    body: JSON.stringify({ sold: true }),
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -162,4 +163,4 @@ function SaleForm() {
     );
 }
 
-export default SaleForm;
+export default SaleForm
